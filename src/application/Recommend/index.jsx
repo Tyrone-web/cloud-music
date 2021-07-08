@@ -1,0 +1,8 @@
+import {memo} from 'react';
+
+const Recommend = props => {
+
+    return <div>Recommend</div>
+}
+
+export default memo(Recommend);
