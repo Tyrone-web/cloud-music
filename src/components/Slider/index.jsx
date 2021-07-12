@@ -1,50 +1,31 @@
-import React, { useEffect, useState, memo } from "react";
+import React, { memo } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { SliderContainer } from "./style";
+import SwiperCore, { Pagination, Autoplay } from "swiper";
 import "swiper/swiper-bundle.css";
-import Swiper from "swiper";
 
-function Slider(props) {
-  const [sliderSwiper, setSliderSwiper] = useState(null);
+SwiperCore.use([Pagination, Autoplay]);
+
+const Slider = (props) => {
   const { bannerList } = props;
 
-  useEffect(() => {
-    if (bannerList.length && !sliderSwiper) {
-      let newSliderSwiper = new Swiper(".slider-container", {
-        loop: true,
-        autoplay: {
-          delay: 3000,
-          disableOnInteraction: false,
-        },
-        pagination: { el: ".swiper-pagination" },
-      });
-      setSliderSwiper(newSliderSwiper);
-    }
-  }, [bannerList.length, sliderSwiper]);
-
-  return (
+  return bannerList.length > 0 ? (
     <SliderContainer>
-      <div className="before"></div>
-      <div className="slider-container">
-        <div className="swiper-wrapper">
-          {bannerList.map((slider) => {
-            return (
-              <div className="swiper-slide" key={slider.id}>
-                <div className="slider-nav">
-                  <img
-                    src={slider.imageUrl}
-                    width="100%"
-                    height="100%"
-                    alt="推荐"
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        <div className="swiper-pagination"></div>
-      </div>
+      <Swiper
+        spaceBetween={0}
+        slidesPerView={1}
+        loop={true}
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 2500, disableOnInteraction: false }}
+      >
+        {bannerList.map((item) => (
+          <SwiperSlide key={item}>
+            <img src={item.imageUrl} width="100%" height="100%" alt="推荐" />
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </SliderContainer>
-  );
-}
+  ) : null;
+};
 
 export default memo(Slider);
