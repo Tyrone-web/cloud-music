@@ -19,7 +19,7 @@ const Slider = (props) => {
         autoplay={{ delay: 2500, disableOnInteraction: false }}
       >
         {bannerList.map((item) => (
-          <SwiperSlide key={item}>
+          <SwiperSlide key={item.id}>
             <img src={item.imageUrl} width="100%" height="100%" alt="推荐" />
           </SwiperSlide>
         ))}
