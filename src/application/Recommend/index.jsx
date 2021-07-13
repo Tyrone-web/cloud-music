@@ -5,6 +5,8 @@ import Slider from "../../components/Slider";
 import * as actionTypes from "./store/actionCreators";
 import Scroll from "../../baseUI/Scroll";
 import { Content } from "./style";
+import { forceCheck } from "react-lazyload";
+import Loading from "../../baseUI/Loading";
 
 // const Recommend = (props) => {
 //   const { bannerList, recommendList } = props;
@@ -64,23 +66,32 @@ const Recommend = memo(() => {
   const recommendList = useSelector((state) =>
     state.getIn(["recommend", "recommendList"])
   );
+  const enterLoading = useSelector((state) =>
+    state.getIn(["recommend", "enterLoading"])
+  );
   const bannerListJS = bannerList ? bannerList.toJS() : [];
   const recommendListJS = recommendList ? recommendList.toJS() : [];
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(actionTypes.getBannerList());
-    dispatch(actionTypes.getRecommendList());
+    if (!bannerListJS.length) {
+      dispatch(actionTypes.getBannerList());
+    }
+
+    if (!recommendListJS.length) {
+      dispatch(actionTypes.getRecommendList());
+    }
     // eslint-disable-next-line
   }, []);
 
   return (
     <Content>
-      <Scroll className="list" onScroll={() => console.log("test")}>
+      <Scroll className="list" onScroll={forceCheck}>
         <div>
           <Slider bannerList={bannerListJS}></Slider>
           <RecommendList recommendList={recommendListJS}></RecommendList>
         </div>
       </Scroll>
+      {enterLoading && <Loading />}
     </Content>
   );
 });
