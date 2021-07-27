@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import HorizonItem from "../../baseUI/HorizonItem";
 import Loading from "../../baseUI/Loading";
@@ -13,8 +13,7 @@ import {
   EnterLoading,
 } from "./style";
 import Scroll from "../../baseUI/Scroll";
-import { useEffect } from "react";
-import { useRef } from "react";
+const defaultImg = require("./singer.png").default;
 
 const Singers = (props) => {
   // 从redux中读取数据
@@ -67,7 +66,7 @@ const Singers = (props) => {
   };
 
   useEffect(() => {
-    if (!singerList.length) {
+    if (!singerListJS.length) {
       dispatch(actionTypes.getHotSingerList());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,7 +106,7 @@ const Singers = (props) => {
                     <img
                       width="100%"
                       height="100%"
-                      src={require("./singer.png")}
+                      src={defaultImg}
                       alt="music"
                     />
                   }
