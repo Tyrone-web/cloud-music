@@ -25,7 +25,7 @@ const bgFull = () => {
   `
 };
 
-const globalStyle = {
+const style = {
   "theme-color": "#d44439",
   "theme-color-shadow": "rgba(212, 68, 57, .5)",
   "font-color-light": "#f1f1f1",
@@ -48,4 +48,4 @@ const globalStyle = {
   bgFull
 };
 
-export default globalStyle;
+export default style

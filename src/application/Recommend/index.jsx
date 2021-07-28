@@ -7,6 +7,7 @@ import Scroll from "../../baseUI/Scroll";
 import { Content } from "./style";
 import { forceCheck } from "react-lazyload";
 import Loading from "../../baseUI/Loading";
+import { renderRoutes } from "react-router-config";
 
 // const Recommend = (props) => {
 //   const { bannerList, recommendList } = props;
@@ -59,7 +60,7 @@ import Loading from "../../baseUI/Loading";
 
 // export default connect(mapStateToProps, mapDispatchToProps)(memo(Recommend));
 
-const Recommend = memo(() => {
+const Recommend = memo((props) => {
   const bannerList = useSelector((state) => {
     return state.getIn(["recommend", "bannerList"]);
   });
@@ -92,6 +93,8 @@ const Recommend = memo(() => {
         </div>
       </Scroll>
       {enterLoading && <Loading />}
+      {/* /将目前所在路由的下一层子路由加以渲染 */}
+      {renderRoutes(props.route.routes)}
     </Content>
   );
 });
