@@ -12,7 +12,6 @@ import { renderRoutes } from "react-router-config";
 const Rank = (props) => {
   const rankList = useSelector((state) => state.getIn(["rank", "rankList"]));
   const loading = useSelector((state) => state.getIn(["rank", "loading"]));
-  console.log(rankList, "rankList");
 
   const rankListJS = rankList ? rankList.toJS() : [];
 
@@ -30,14 +29,13 @@ const Rank = (props) => {
   const officialList = rankListJS.slice(0, globalStartIndex); // 官方榜
   const globalList = rankListJS.slice(globalStartIndex); // 全球榜
 
-  console.log(rankListJS, "rankListJS");
   const renderRankList = (list, global) => {
     return (
       <List globalRank={global}>
         {list.map((item) => {
           return (
             <ListItem
-              key={item.coverImgId}
+              key={item.id}
               tracks={item.tracks}
               onClick={() => enterDetail(item.name)}
             >
@@ -76,13 +74,11 @@ const Rank = (props) => {
       <Scroll>
         <div>
           <h1 className="offical" style={displayStyle}>
-            {" "}
-            官方榜{" "}
+            官方榜
           </h1>
           {renderRankList(officialList)}
           <h1 className="global" style={displayStyle}>
-            {" "}
-            全球榜{" "}
+            全球榜
           </h1>
           {renderRankList(globalList, true)}
           {loading ? (
