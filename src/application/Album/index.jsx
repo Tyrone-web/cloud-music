@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, TopDesc, Menu, SongItem, SongList } from "./style";
 import { CSSTransition } from "react-transition-group";
@@ -7,9 +7,7 @@ import { getName, getCount, isEmptyObject } from "../../api/utils";
 import Scroll from "../../baseUI/Scroll";
 import style from "../../assets/global-style";
 import { getAlbumList } from "./store/actionCreators";
-import { useEffect } from "react";
 import Loading from "../../baseUI/Loading";
-import { useCallback } from "react";
 
 export const HEADER_HEIGHT = 45;
 const Album = (props) => {
