@@ -1,5 +1,6 @@
 import { memo, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { renderRoutes } from "react-router-config";
 import HorizonItem from "../../baseUI/HorizonItem";
 import Loading from "../../baseUI/Loading";
 import * as actionTypes from "./store/actionCreators";
@@ -92,6 +93,10 @@ const Singers = (props) => {
     pullDownRefresh(category, alpha);
   };
 
+  const enterDetail = (id) => {
+    props.history.push(`/singers/${id}`);
+  };
+
   // 渲染函数，返回歌手列表
   const renderSingerList = () => {
     return (
@@ -99,7 +104,10 @@ const Singers = (props) => {
         {singerListJS.map((item, index) => {
           console.log(item.picUrl, "picUrl");
           return (
-            <ListItem key={item.accountId + "" + index}>
+            <ListItem
+              key={item.accountId + "" + index}
+              onClick={() => enterDetail(item.id)}
+            >
               <div className="img_wrapper">
                 <LazyLoad
                   placeholder={
@@ -161,6 +169,7 @@ const Singers = (props) => {
           <Loading></Loading>
         </EnterLoading>
       ) : null}
+      {renderRoutes(props.route.routes)}
     </>
   );
 };

@@ -1,13 +1,14 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Container, TopDesc, Menu, SongItem, SongList } from "./style";
+import { Container, TopDesc, Menu } from "./style";
 import { CSSTransition } from "react-transition-group";
 import Header from "../../baseUI/Header";
-import { getName, getCount, isEmptyObject } from "../../api/utils";
+import { getCount, isEmptyObject } from "../../api/utils";
 import Scroll from "../../baseUI/Scroll";
 import style from "../../assets/global-style";
 import { getAlbumList } from "./store/actionCreators";
 import Loading from "../../baseUI/Loading";
+import SongsList from "../SongList";
 
 export const HEADER_HEIGHT = 45;
 const Album = (props) => {
@@ -107,44 +108,6 @@ const Album = (props) => {
     );
   };
 
-  const renderSongList = () => {
-    return (
-      <SongList>
-        <div className="first_line">
-          <div className="play_all">
-            <i className="iconfont">&#xe6e3;</i>
-            <span>
-              {" "}
-              播放全部{" "}
-              <span className="sum">
-                (共 {currentAlbumJS.tracks.length} 首)
-              </span>
-            </span>
-          </div>
-          <div className="add_list">
-            <i className="iconfont">&#xe62d;</i>
-            <span> 收藏 ({getCount(currentAlbumJS.subscribedCount)})</span>
-          </div>
-        </div>
-        <SongItem>
-          {currentAlbumJS.tracks.map((item, index) => {
-            return (
-              <li key={index}>
-                <span className="index">{index + 1}</span>
-                <div className="info">
-                  <span>{item.name}</span>
-                  <span>
-                    {getName(item.ar)} - {item.al.name}
-                  </span>
-                </div>
-              </li>
-            );
-          })}
-        </SongItem>
-      </SongList>
-    );
-  };
-
   return (
     <CSSTransition
       in={showStatus}
@@ -166,7 +129,14 @@ const Album = (props) => {
             <div>
               {renderTopDesc()}
               {renderMenu()}
-              {renderSongList()}
+              <SongsList
+                songs={currentAlbumJS.tracks}
+                collectCount={currentAlbumJS.subscribedCount}
+                showCollect={true}
+                // loading={pullUpLoading}
+                musicAnimation={props.musicAnimation}
+                // showBackground={true}
+              ></SongsList>
             </div>
           </Scroll>
         )}
