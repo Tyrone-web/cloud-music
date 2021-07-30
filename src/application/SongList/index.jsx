@@ -13,6 +13,7 @@ const SongsList = forwardRef((props, refs) => {
 
   let songList = (list) => {
     let res = [];
+    console.log(list, "list");
     for (let i = 0; i < list.length; i++) {
       let item = list[i];
       res.push(

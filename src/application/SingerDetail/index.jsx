@@ -44,6 +44,7 @@ const SingerDetail = (props) => {
         al: {
           name: "薛之谦专辑",
         },
+        id: 1,
       },
       {
         name: "我好像在哪见过你",
@@ -51,6 +52,7 @@ const SingerDetail = (props) => {
         al: {
           name: "薛之谦专辑",
         },
+        id: 2,
       },
       // 省略 20 条
     ],
