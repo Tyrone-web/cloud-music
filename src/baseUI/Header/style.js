@@ -10,8 +10,7 @@ width: 100%;
 z-index: 100;
 display: flex;
 line-height: 40px;
-/* color: ${style["font-color-light"]}; */
-color: black;
+color: ${style["font-color-light"]};
 .back {
   margin-right: 5px;
   font-size: 20px;
