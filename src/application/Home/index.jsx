@@ -2,6 +2,7 @@ import { memo } from "react";
 import { renderRoutes } from "react-router-config";
 import { NavLink } from "react-router-dom";
 import { Top, Tab, TabItem } from "./style";
+import Player from "../Player";
 
 const Home = (props) => {
   const { route } = props;
@@ -31,6 +32,7 @@ const Home = (props) => {
         </NavLink>
       </Tab>
       {renderRoutes(route.routes)}
+      <Player />
     </div>
   );
 };
