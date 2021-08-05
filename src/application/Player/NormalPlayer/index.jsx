@@ -3,6 +3,7 @@ import { getName } from "../../../api/utils";
 import { CSSTransition } from "react-transition-group";
 import animations from "create-keyframe-animation";
 import { prefixStyle } from "../../../api/utils";
+import ProgressBar from "../../../baseUI/ProgressBar";
 import {
   NormalPlayerContainer,
   Top,
@@ -10,6 +11,7 @@ import {
   Bottom,
   Operators,
   CDWrapper,
+  ProgressWrapper,
 } from "./style";
 
 const NormalPlayer = (props) => {
@@ -130,6 +132,13 @@ const NormalPlayer = (props) => {
           </CDWrapper>
         </Middle>
         <Bottom className="bottom">
+          <ProgressWrapper>
+            <span className="time time-l">0:00</span>
+            <div className="progress-bar-wrapper">
+              <ProgressBar percent={0.2}></ProgressBar>
+            </div>
+            <div className="time time-r">4:17</div>
+          </ProgressWrapper>
           <Operators>
             <div className="icon i-left">
               <i className="iconfont">&#xe625;</i>

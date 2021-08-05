@@ -168,6 +168,7 @@ export const ProgressWrapper = styled.div`
   }
   .progress-bar-wrapper {
     flex: 1;
+    margin-left: 8px;
   }
 `;
 
