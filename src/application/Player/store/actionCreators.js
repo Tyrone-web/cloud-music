@@ -7,7 +7,7 @@ import {
     SET_PLAY_MODE,
     SET_CURRENT_INDEX,
     SET_SHOW_PLAYLIST,
-    DELETE_SONG, INSERT_SONG
+    // DELETE_SONG, INSERT_SONG
 } from './constants';
 import { fromJS } from 'immutable';
 

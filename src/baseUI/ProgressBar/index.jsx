@@ -1,15 +1,29 @@
+import { useEffect } from "react";
 import React, { useRef, useState } from "react";
-// import { prefixStyle } from "./../../api/utils";
+import { prefixStyle } from "./../../api/utils";
 import { ProgressBarWrapper } from "./style";
 
 const ProgressBar = (props) => {
-  const { percentChange } = props;
+  const { percentChange, percent } = props;
   const progressBar = useRef();
   const progress = useRef();
   const progressBtn = useRef();
   const [touch, setTouch] = useState({});
+  const transform = prefixStyle("transform");
 
   const progressBtnWidth = 16;
+
+  useEffect(() => {
+    if (percent >= 0 && percent <= 1 && !touch.initiated) {
+      const barWidth = progressBar.current.clientWidth - progressBtnWidth;
+      const offsetWidth = percent * barWidth;
+      progress.current.style.width = `${offsetWidth}px`;
+      progressBtn.current.style[
+        transform
+      ] = `translate3d(${offsetWidth}px, 0, 0)`;
+    }
+    // eslint-disable-next-line
+  }, [percent]);
 
   const _changePercent = () => {
     const barWidth = progressBar.current.clientWidth - progressBtnWidth;
@@ -43,14 +57,14 @@ const ProgressBar = (props) => {
     const endTouch = JSON.parse(JSON.stringify(touch));
     endTouch.initiated = false;
     setTouch(endTouch);
-    // _changePercent();
+    _changePercent();
   };
 
   const progressClick = (e) => {
     const rect = progressBar.current.getBoundingClientRect();
     const offsetWidth = e.pageX - rect.left;
     _offset(offsetWidth);
-    // _changePercent();
+    _changePercent();
   };
 
   return (
