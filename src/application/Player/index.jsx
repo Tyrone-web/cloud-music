@@ -139,9 +139,9 @@ const Player = (props) => {
     }
   };
 
-  useEffect(() => {
-    dispatch(changeCurrentIndex(0));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(changeCurrentIndex(0));
+  // }, [dispatch]);
 
   useEffect(() => {
     if (
@@ -174,6 +174,7 @@ const Player = (props) => {
           song={currentSongJS}
           fullScreen={fullScreen}
           playing={playing}
+          percent={percent} //进度
           toggleFullScreen={toggleFullScreenDispatch}
           clickPlaying={clickPlaying}
         />

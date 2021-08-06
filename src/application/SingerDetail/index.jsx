@@ -9,6 +9,7 @@ import Scroll from "../../baseUI/Scroll";
 import { HEADER_HEIGHT } from "./../../api/config";
 import { getSingerInfo } from "./store/actionCreators";
 import Loading from "../../baseUI/Loading";
+import MusicNote from "../../baseUI/MusicNote";
 
 const SingerDetail = (props) => {
   const [showStatus, setShowStatus] = useState(true);
@@ -25,12 +26,15 @@ const SingerDetail = (props) => {
   const songsOfArtistJS = songsOfArtist.toJS();
 
   const dispatch = useDispatch();
+
   const collectButton = useRef();
   const imageWrapper = useRef();
   const songScrollWrapper = useRef();
   const songScroll = useRef();
   const header = useRef();
   const layer = useRef();
+  const musicNoteRef = useRef();
+
   // 图片初始高度
   const initialHeight = useRef(0);
   // 往上偏移的尺寸，露出圆角
@@ -54,6 +58,10 @@ const SingerDetail = (props) => {
   const setShowStatusFalse = useCallback(() => {
     setShowStatus(false);
   }, []);
+
+  const musicAnimation = (x, y) => {
+    musicNoteRef.current.startAnimation({ x, y });
+  };
 
   const handleScroll = useCallback((pos) => {
     let height = initialHeight.current;
@@ -119,10 +127,16 @@ const SingerDetail = (props) => {
         <BgLayer ref={layer}></BgLayer>
         <SongListWrapper ref={songScrollWrapper}>
           <Scroll onScroll={handleScroll} ref={songScroll}>
-            <SongsList songs={songsOfArtistJS} showCollect={false}></SongsList>
+            <SongsList
+              songs={songsOfArtistJS}
+              showCollect={false}
+              musicAnimation={musicAnimation}
+              showBackground
+            ></SongsList>
           </Scroll>
         </SongListWrapper>
         {loading ? <Loading></Loading> : null}
+        <MusicNote ref={musicNoteRef}></MusicNote>
       </Container>
     </CSSTransition>
   );

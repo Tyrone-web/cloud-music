@@ -9,6 +9,7 @@ import style from "../../assets/global-style";
 import { getAlbumList } from "./store/actionCreators";
 import Loading from "../../baseUI/Loading";
 import SongsList from "../SongList";
+import MusicNote from "../../baseUI/MusicNote";
 
 export const HEADER_HEIGHT = 45;
 const Album = (props) => {
@@ -24,6 +25,8 @@ const Album = (props) => {
   const currentAlbumJS = currentAlbum?.toJS();
 
   const headerEl = useRef();
+  const musicNoteRef = useRef();
+
   const dispatch = useDispatch();
 
   const id = props.match.params.id;
@@ -34,6 +37,10 @@ const Album = (props) => {
   const handleBack = useCallback(() => {
     setShowStatus(false);
   }, []);
+
+  const musicAnimation = (x, y) => {
+    musicNoteRef.current.startAnimation({ x, y });
+  };
 
   const handleScroll = useCallback(
     (pos) => {
@@ -134,13 +141,15 @@ const Album = (props) => {
                 collectCount={currentAlbumJS.subscribedCount}
                 showCollect={true}
                 // loading={pullUpLoading}
-                musicAnimation={props.musicAnimation}
-                // showBackground={true}
+                // musicAnimation={props.musicAnimation}
+                musicAnimation={musicAnimation}
+                showBackground
               ></SongsList>
             </div>
           </Scroll>
         )}
         {enterLoading ? <Loading></Loading> : null}
+        <MusicNote ref={musicNoteRef}></MusicNote>
       </Container>
     </CSSTransition>
   );
