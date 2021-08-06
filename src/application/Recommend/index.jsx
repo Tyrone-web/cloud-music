@@ -70,6 +70,10 @@ const Recommend = memo((props) => {
   const enterLoading = useSelector((state) =>
     state.getIn(["recommend", "enterLoading"])
   );
+  const songsCount = useSelector(
+    (state) => state.getIn(["player", "playList"]).size
+  );
+
   const bannerListJS = bannerList ? bannerList.toJS() : [];
   const recommendListJS = recommendList ? recommendList.toJS() : [];
   const dispatch = useDispatch();
@@ -85,7 +89,7 @@ const Recommend = memo((props) => {
   }, []);
 
   return (
-    <Content>
+    <Content play={songsCount}>
       <Scroll className="list" onScroll={forceCheck}>
         <div>
           <Slider bannerList={bannerListJS}></Slider>
