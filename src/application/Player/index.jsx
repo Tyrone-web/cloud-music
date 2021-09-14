@@ -23,7 +23,7 @@ const Player = (props) => {
   const [modeText, setModeText] = useState("");
   const [currentTime, setCurrentTime] = useState(0); //目前播放时间
   const [duration, setDuration] = useState(0); //歌曲总时长
-  const [, setPlayingLyric] = useState("");
+  const [currentPlayingLyric, setPlayingLyric] = useState("");
 
   const toastRef = useRef();
   const songReady = useRef(true);
@@ -168,6 +168,7 @@ const Player = (props) => {
     }, 3000);
     getLyricRequest(id)
       .then((data) => {
+        console.log(data, "data");
         lyric = data.lrc && data.lrc.lyric;
         if (!lyric) {
           currentLyric.current = null;
@@ -253,6 +254,9 @@ const Player = (props) => {
           togglePlayList={togglePlayList}
           mode={mode}
           changeMode={changeMode}
+          currentLyric={currentLyric.current}
+          currentPlayingLyric={currentPlayingLyric}
+          currentLineNum={currentLineNum.current}
         />
       )}
       <PlayList />
