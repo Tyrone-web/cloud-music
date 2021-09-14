@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CSSTransition } from "react-transition-group";
+import MusicalNote from "../../baseUI/MusicNote";
 import LazyLoad, { forceCheck } from "react-lazyload";
 import { getName } from "../../api/utils";
 import {
@@ -41,6 +42,8 @@ const Search = (props) => {
     state.getIn(["search", "songsList"])
   );
 
+  const musicNoteRef = useRef();
+
   const suggestList = immutableSuggestList.toJS();
   const songsList = immutableSongsList.toJS();
 
@@ -56,6 +59,10 @@ const Search = (props) => {
 
   const selectItem = (e, id) => {
     getSongDetailDispatch(id);
+    musicNoteRef.current.startAnimation({
+      x: e.nativeEvent.clientX,
+      y: e.nativeEvent.clientY,
+    });
   };
 
   const renderSingers = () => {
@@ -212,7 +219,17 @@ const Search = (props) => {
             </div>
           </Scroll>
         </ShortcutWrapper>
+        <ShortcutWrapper show={query}>
+          <Scroll onScorll={forceCheck}>
+            <div>
+              {renderSingers()}
+              {renderAlbum()}
+              {renderSongs()}
+            </div>
+          </Scroll>
+        </ShortcutWrapper>
         {enterLoading ? <Loading></Loading> : null}
+        <MusicalNote ref={musicNoteRef}></MusicalNote>
       </Container>
     </CSSTransition>
   );
