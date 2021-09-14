@@ -1,8 +1,8 @@
-import { memo, useRef, createRef, useEffect } from "react";
+import { memo, useRef, createRef, useEffect, useCallback } from "react";
 import { CSSTransition } from "react-transition-group";
 import animations from "create-keyframe-animation";
 import { prefixStyle, formatPlayTime, getName } from "../../../api/utils";
-import { playMode } from "../../../api/config";
+import { playMode, list } from "../../../api/config";
 import ProgressBar from "../../../baseUI/ProgressBar";
 import Scroll from "../../../baseUI/Scroll";
 import {
@@ -15,6 +15,8 @@ import {
   ProgressWrapper,
   LyricContainer,
   LyricWrapper,
+  List,
+  ListItem,
 } from "./style";
 
 const NormalPlayer = (props) => {
@@ -23,8 +25,8 @@ const NormalPlayer = (props) => {
     fullScreen,
     toggleFullScreen,
     togglePlayList,
-    // playing,
-    // clickPlaying,
+    playing,
+    clickPlaying,
     handlePrev,
     handleNext,
     percent,
@@ -33,6 +35,8 @@ const NormalPlayer = (props) => {
     mode,
     currentTime,
     onProgressChange,
+    speed,
+    clickSpeed,
   } = props;
 
   const { currentLineNum, currentPlayingLyric, currentLyric } = props;
@@ -137,6 +141,13 @@ const NormalPlayer = (props) => {
     }
   };
 
+  const clickPlayingCB = useCallback(
+    (e) => {
+      clickPlaying(e, !playing);
+    },
+    [clickPlaying, playing]
+  );
+
   const getPlayMode = () => {
     let content;
     if (mode === playMode.sequence) {
@@ -174,8 +185,10 @@ const NormalPlayer = (props) => {
           <div className="back" onClick={() => toggleFullScreen(false)}>
             <i className="iconfont icon-back">&#xe662;</i>
           </div>
-          <h1 className="title">{song.name}</h1>
-          <h1 className="subtitle">{getName(song.ar)}</h1>
+          <div className="text">
+            <h1 className="title">{song.name}</h1>
+            <h1 className="subtitle">{getName(song.ar)}</h1>
+          </div>
         </Top>
         <Middle ref={cdWrapperRef} onClick={toggleCurrentState}>
           <CSSTransition
@@ -188,7 +201,16 @@ const NormalPlayer = (props) => {
                 visibility:
                   currentState.current !== "lyric" ? "visible" : "hidden",
               }}
+              playing={playing}
             >
+              <div className={`needle ${playing ? "" : "pause"}`}></div>
+              <div className="cd">
+                <img
+                  className={`image play ${playing ? "" : "pause"}`}
+                  src={song.al.picUrl + "?param=400x400"}
+                  alt=""
+                />
+              </div>
               <p className="playing_lyric">{currentPlayingLyric}</p>
             </CDWrapper>
           </CSSTransition>
@@ -231,6 +253,20 @@ const NormalPlayer = (props) => {
           </CSSTransition>
         </Middle>
         <Bottom className="bottom">
+          <List>
+            <span> 倍速听歌 </span>
+            {list.map((item) => {
+              return (
+                <ListItem
+                  key={item.key}
+                  className={`${speed === item.key ? "selected" : ""}`}
+                  onClick={() => clickSpeed(item.key)}
+                >
+                  {item.name}
+                </ListItem>
+              );
+            })}
+          </List>
           <ProgressWrapper>
             <span className="time time-l">{formatPlayTime(currentTime)}</span>
             <div className="progress-bar-wrapper">
@@ -259,7 +295,14 @@ const NormalPlayer = (props) => {
               />
             </div> */}
             <div className="icon i-center">
-              <i className="iconfont">&#xe723;</i>
+              {/* <i className="iconfont">&#xe723;</i> */}
+              <i
+                className="iconfont"
+                onClick={clickPlayingCB}
+                dangerouslySetInnerHTML={{
+                  __html: playing ? "&#xe723;" : "&#xe731;",
+                }}
+              ></i>
             </div>
             <div className="icon i-right" onClick={handleNext}>
               <i className="iconfont">&#xe718;</i>

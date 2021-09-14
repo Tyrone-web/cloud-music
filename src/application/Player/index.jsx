@@ -16,6 +16,7 @@ import {
   changePlayList,
   changePlayMode,
   changeFullScreen,
+  changeSpeed,
 } from "./store/actionCreators";
 
 const Player = (props) => {
@@ -58,6 +59,8 @@ const Player = (props) => {
   let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
 
   const dispatch = useDispatch();
+
+  const changeSpeedDispatch = (data) => dispatch(changeSpeed(data));
 
   const toggleFullScreenDispatch = (data) => {
     dispatch(changeFullScreen(data));
@@ -168,7 +171,6 @@ const Player = (props) => {
     }, 3000);
     getLyricRequest(id)
       .then((data) => {
-        console.log(data, "data");
         lyric = data.lrc && data.lrc.lyric;
         if (!lyric) {
           currentLyric.current = null;
@@ -224,6 +226,15 @@ const Player = (props) => {
     }
   }, [fullScreen]);
 
+  const clickSpeed = (newSpeed) => {
+    changeSpeedDispatch(newSpeed);
+    //playbackRate 为歌词播放的速度，可修改
+    audioRef.current.playbackRate = newSpeed;
+    // 别忘了同步歌词
+    currentLyric.current.changeSpeed(newSpeed);
+    currentLyric.current.seek(currentTime * 1000);
+  };
+
   return (
     <>
       {!isEmptyObject(currentSongJS) && (
@@ -240,6 +251,7 @@ const Player = (props) => {
       {!isEmptyObject(currentSongJS) && (
         <NormalPlayer
           speed={speed}
+          clickSpeed={clickSpeed}
           song={currentSongJS}
           fullScreen={fullScreen}
           playing={playing}

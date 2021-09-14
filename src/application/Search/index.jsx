@@ -35,9 +35,9 @@ const Search = (props) => {
   const immutableSuggestList = useSelector((state) =>
     state.getIn(["search", "suggestList"])
   );
-  const songsCount = useSelector((state) =>
-    state.getIn(["search", "songsCount"])
-  );
+  // const songsCount = useSelector((state) =>
+  //   state.getIn(["search", "songsCount"])
+  // );
   const immutableSongsList = useSelector((state) =>
     state.getIn(["search", "songsList"])
   );
